@@ -91,7 +91,9 @@ function KeybindingPill({ value }: { value: string }) {
                   ? "⌥"
                   : "Alt"
                 : part === "ctrl"
-                  ? "⌃"
+                  ? navigator.platform.toLowerCase().includes("mac")
+                    ? "⌃"
+                    : "Ctrl"
                   : part.length === 1
                     ? part.toUpperCase()
                     : part}
