@@ -541,6 +541,30 @@ it.layer(NodeServices.layer)("providerMaintenance", (it) => {
     }),
   );
 
+  it("keeps npm updates for shims in npm's Windows global prefix", () => {
+    expect(
+      packageToolUpdate.resolve({
+        binaryPath: "C:\\Users\\dev\\AppData\\Roaming\\npm\\package-tool.cmd",
+        env: {
+          PATH: "",
+          PATHEXT: ".COM;.EXE;.BAT;.CMD",
+        },
+      }),
+    ).toEqual({
+      provider: driver("packageTool"),
+      packageName: "@example/package-tool",
+      update: {
+        command: "npm install -g @example/package-tool@latest",
+
+        executable: "npm",
+
+        args: ["install", "-g", "@example/package-tool@latest"],
+
+        lockKey: "npm-global",
+      },
+    });
+  });
+
   it("disables one-click updates for explicit custom binary paths it cannot safely map", () => {
     expect(
       packageToolUpdate.resolve({

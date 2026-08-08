@@ -245,7 +245,10 @@ function isNpmGlobalCommandPath(commandPath: string): boolean {
   return (
     normalized.includes("/node_modules/.bin/") ||
     normalized.includes("/lib/node_modules/") ||
-    normalized.includes("/npm/node_modules/")
+    normalized.includes("/npm/node_modules/") ||
+    // npm's Windows global prefix installs real .cmd/.ps1 shims, not
+    // symlinks into node_modules, so realPath stays in this directory.
+    normalized.includes("/appdata/roaming/npm/")
   );
 }
 
